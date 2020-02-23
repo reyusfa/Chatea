@@ -10,26 +10,27 @@ const auth = (state = initialState, action) => {
   switch (action.type) {
     case 'LOGIN_REQUEST_PENDING':
       return {
-        ...initialState,
+        ...state,
         isLoading: true
       };
     case 'LOGIN_REQUEST_REJECTED':
       if (action.payload.code) {
-        Toast('Email and password does not match!');
+        Toast(action.payload.message);
       }
       return {
-        ...initialState,
+        ...state,
         isLoading: false
       };
     case 'LOGIN_REQUEST_FULFILLED':
       return {
         ...state,
         data: action.payload,
+        isLogout: false,
         isLogout: false
       };
     case 'REGISTER_REQUEST_PENDING':
       return {
-        ...initialState,
+        ...state,
         isLoading: true
       };
     case 'REGISTER_REQUEST_REJECTED':
@@ -37,14 +38,18 @@ const auth = (state = initialState, action) => {
         Toast(action.payload.message);
       }
       return {
-        ...initialState,
+        ...state,
         isLoading: false
       };
     case 'REGISTER_REQUEST_FULFILLED':
       return {
-        ...initialState,
+        ...state,
         isLoading: false,
         registered: action.payload
+      };
+    case 'LOGOUT_REQUEST':
+      return {
+        ...initialState
       };
     default:
       return state;
