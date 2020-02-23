@@ -74,6 +74,7 @@ const Login = props => {
                 title="Login"
                 onPress={onSubmit}
                 loading={actionLoading}
+                disabled={actionLoading}
               />
             </ListItemFooter>
             <ListItemFooter>
