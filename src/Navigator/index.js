@@ -6,10 +6,10 @@ import AuthNavigator from './AuthNavigator';
 
 const MainNavigator = props => {
   const { auth } = props;
-  return auth && auth.data && auth.data.user ? (
-    <AppNavigator {...props} />
-  ) : (
+  return auth && auth.isLogout ? (
     <AuthNavigator {...props} />
+  ) : (
+    <AppNavigator {...props} />
   );
 };
 
