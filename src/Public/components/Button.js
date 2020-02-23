@@ -9,6 +9,8 @@ const Button = props => {
     <EButton
       titleStyle={styles.buttonTitle}
       buttonStyle={styles.buttonButton}
+      disabledTitleStyle={styles.buttonTitle}
+      disabledStyle={styles.buttonButton}
       {...props}
     />
   );
