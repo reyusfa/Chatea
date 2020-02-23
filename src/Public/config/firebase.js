@@ -14,12 +14,14 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-const db = firebaseApp.database();
-const auth = firebaseApp.auth();
+const firebaseDatabase = firebaseApp.database();
+const firebaseAuth = firebaseApp.auth();
+
+const firebaseTimestamp = firebase.database.ServerValue.TIMESTAMP;
 
 // import database from '@react-native-firebase/database';
 // import auth from '@react-native-firebase/auth';
 
 // const db = database();
 
-export { db, auth };
+export { firebase, firebaseTimestamp, firebaseDatabase, firebaseAuth };
