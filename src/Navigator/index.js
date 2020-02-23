@@ -6,7 +6,11 @@ import AuthNavigator from './AuthNavigator';
 
 const MainNavigator = props => {
   const { auth } = props;
-  return !auth.data.token ? <AppNavigator {...props} /> : <AuthNavigator />;
+  return auth && auth.data && auth.data.user ? (
+    <AppNavigator {...props} />
+  ) : (
+    <AuthNavigator {...props} />
+  );
 };
 
 const mapStateToProps = state => ({
