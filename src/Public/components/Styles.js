@@ -3,7 +3,8 @@ const color = {
   Background: '#efd892',
   Accent1: '#2c1e26',
   Accent2: '#f2f3f2',
-  Accent3: '#d12b2b'
+  Accent3: '#d12b2b',
+  Accent4: '#fff0c0'
 };
 
 const font = {
