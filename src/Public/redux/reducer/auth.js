@@ -3,7 +3,8 @@ import { Toast } from '../../components';
 const initialState = {
   data: [],
   isLoading: false,
-  isLogout: true
+  isLogout: true,
+  uid: null
 };
 
 const auth = (state = initialState, action) => {
@@ -26,7 +27,7 @@ const auth = (state = initialState, action) => {
         ...state,
         data: action.payload,
         isLogout: false,
-        isLogout: false
+        uid: action.payload.user.uid
       };
     case 'REGISTER_REQUEST_PENDING':
       return {
@@ -47,7 +48,17 @@ const auth = (state = initialState, action) => {
         isLoading: false,
         registered: action.payload
       };
-    case 'LOGOUT_REQUEST':
+    case 'LOGOUT_REQUEST_PENDING':
+      return {
+        ...state,
+        isLoading: true
+      };
+    case 'LOGOUT_REQUEST_REJECTED':
+      return {
+        ...state,
+        isLoading: false
+      };
+    case 'LOGOUT_REQUEST_FULFILLED':
       return {
         ...initialState
       };
