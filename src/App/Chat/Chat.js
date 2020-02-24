@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
-import { db } from '../../Public/config/firebase';
+import {
+  firebaseTimestamp,
+  firebaseDatabase
+} from '../../Public/config/firebase';
 
 import { color } from '../../Public/components/Styles';
 
@@ -16,53 +19,78 @@ const objectToArray = object => {
     })
     .reverse();
 };
+// chats/${chatId}/updatedAt
+// users/${senderId}/chats/${chatId}/updatedAt
+// users/${receiverId}/chats/${chatId}/updatedAt
 
 const Chat = props => {
+  const { auth, navigation, route } = props;
   const [messages, setMessages] = useState([]);
+  const [senderId, setSenderId] = useState(null);
+  const [receiverId, setReceiverId] = useState(null);
 
-  const sendMessages = message => {
-    try {
-      const messageData = {
-        ...message[0]
-      };
+  const rootRef = firebaseDatabase.ref();
 
-      const newMessageKey = db.ref().push().key;
+  const sendMessage = async message => {
+    const chatId = route.params.chatId;
 
-      let updates = {};
-      updates['/messages/' + newMessageKey] = messageData;
+    const newMessageKey = await rootRef.push().key;
 
-      db.ref().update(updates);
-    } catch (error) {
-      // console.log(error);
-    }
+    await rootRef.update({
+      [`chats/${chatId}/messages/${newMessageKey}`]: {
+        ...message[0],
+        createdAt: firebaseTimestamp
+      },
+      [`users/${senderId}/chats/${chatId}/updatedAt`]: firebaseTimestamp,
+      [`users/${receiverId}/chats/${chatId}/updatedAt`]: firebaseTimestamp,
+      [`chats/${chatId}/updatedAt`]: firebaseTimestamp
+    });
   };
 
-  const getMessages = () => {
+  const getMessages = async () => {
     try {
-      db.ref()
+      await rootRef
+        .child('chats')
+        .child(route.params.chatId)
         .child('messages')
         .limitToLast(15)
         .on('value', result => {
-          const data = result.val();
+          const data = result.val() !== null ? result.val() : {};
           setMessages(objectToArray(data));
           // console.log(objectToArray(data));
         });
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
+  const getSenderId = () => {
+    setSenderId(auth.uid);
+  };
+
+  const getReceiverId = async () => {
+    await rootRef
+      .child(`users/${auth.uid}/chats/${route.params.chatId}`)
+      .on('value', function(result) {
+        // console.log(result.val().receiverId);
+        setReceiverId(result.val().receiverId);
+      });
+  };
+
   useEffect(() => {
+    getSenderId();
     getMessages();
+    getReceiverId();
+    // console.log(messages);
   }, []);
 
   return (
     <GiftedChat
       messages={messages}
       user={{
-        _id: 1
+        _id: senderId
       }}
-      onSend={message => sendMessages(message)}
+      onSend={message => sendMessage(message)}
       renderBubble={bubbleProps => {
         return (
           <Bubble
@@ -98,7 +126,9 @@ const Chat = props => {
   );
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 const mapDispatchToProps = dispatch => ({});
 
