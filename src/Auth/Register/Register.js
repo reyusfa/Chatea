@@ -52,7 +52,10 @@ const Register = props => {
     setActionLoading(true);
     const { email, password } = getValues();
     try {
-      await registerRequest({ email, password });
+      await registerRequest({ email, password }).then(result => {
+        console.log(result);
+        navigation.navigate('Login');
+      });
       setActionLoading(false);
     } catch (error) {
       setActionLoading(false);
