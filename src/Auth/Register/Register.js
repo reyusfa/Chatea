@@ -18,7 +18,7 @@ import {
 } from '../../Public/components';
 
 const defaultValues = {
-  email: 'flipchest@gmail.com',
+  email: 'test@email.com',
   password: 'password'
 };
 

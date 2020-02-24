@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-// import { View, Text, StyleSheet } from 'react-native';
+import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as yup from 'yup';
@@ -19,6 +19,7 @@ import {
 
 const defaultValues = {
   email: 'flipchest@gmail.com',
+  // email: 'test@email.com',
   password: 'password'
 };
 
@@ -26,6 +27,8 @@ const LoginSchema = yup.object().shape({
   email: yup.string().required(),
   password: yup.string().required()
 });
+
+const image = require('../../../assets/images/chatea.png');
 
 const Login = props => {
   const { loginRequest, navigation } = props;
@@ -52,6 +55,28 @@ const Login = props => {
 
   return (
     <ContainerScrollView>
+      <View
+        style={{
+          paddingTop: 48,
+          paddingHorizontal: 16,
+          paddingBottom: 16
+        }}>
+        <View
+          style={{
+            flex: 1,
+            height: 110
+          }}>
+          <Image
+            source={image}
+            resizeMode="cover"
+            style={{
+              flex: 1,
+              width: null,
+              height: null
+            }}
+          />
+        </View>
+      </View>
       <ListItem
         title={
           <Fragment>
