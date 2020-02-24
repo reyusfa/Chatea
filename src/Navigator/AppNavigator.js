@@ -47,12 +47,6 @@ const hideHeader = () => ({
   }
 });
 
-const options = title => ({
-  options: {
-    title: title
-  }
-});
-
 const drawerContentOptions = () => ({
   drawerContentOptions: {
     labelStyle: { ...fontFamily.Bold },
@@ -110,8 +104,8 @@ const HomeScreen = screenProps => {
       <Stack.Screen
         name="Home"
         component={Home}
-        {...options('Chatea', screenProps)}
         options={{
+          title: 'Chatea',
           headerLeftContainerStyle: {
             width: 50,
             alignItems: 'center',
@@ -139,8 +133,8 @@ const AppContact = ({ navigation, route }) => {
       <Stack.Screen
         name="Contact"
         component={Contact}
-        {...options('Contact')}
         options={{
+          title: 'Contact',
           headerLeftContainerStyle: {
             width: 50,
             alignItems: 'center',
@@ -177,8 +171,8 @@ const AppSetting = ({ navigation, route }) => {
       <Stack.Screen
         name="Setting"
         component={Setting}
-        {...options('Setting')}
         options={{
+          title: 'Setting',
           headerLeftContainerStyle: {
             width: 50,
             alignItems: 'center',
@@ -204,7 +198,7 @@ const AppNavigator = screenProps => {
   return (
     <Stack.Navigator initialRouteName="AppHome" {...hideHeader()}>
       <Stack.Screen name="AppContact" component={AppContact} />
-      <Stack.Screen name="AppHome" component={AppHome} {...options('Chatea')} />
+      <Stack.Screen name="AppHome" component={AppHome} />
       <Stack.Screen name="AppSetting" component={AppSetting} />
     </Stack.Navigator>
   );
