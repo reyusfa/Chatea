@@ -1,7 +1,7 @@
 import { Input } from './Input';
 import { ListItem, ListItemFooter } from './ListItem';
 import { ContainerScrollView } from './Container';
-import { Button } from './Button';
+import { Button, CustomHeaderButton } from './Button';
 import { Toast } from './Toast';
 import { Text, TextInView } from './Text';
 
@@ -13,5 +13,6 @@ export {
   ContainerScrollView,
   Toast,
   Text,
-  TextInView
+  TextInView,
+  CustomHeaderButton
 };
