@@ -33,7 +33,7 @@ const actionEditAbout = ({ userId, userAbout }) => {
 const actionEditDisplayName = ({ userId, userDisplayName }) => {
   return {
     type: 'EDIT_USER_DISPLAY_NAME',
-    payload: () => {
+    payload: new Promise((resolve, reject) => {
       firebaseAuth.currentUser.updateProfile({
         displayName: userDisplayName
       });
@@ -42,39 +42,42 @@ const actionEditDisplayName = ({ userId, userDisplayName }) => {
         .child(userId)
         .child('displayName')
         .set(userDisplayName);
-    }
+      resolve(userDisplayName);
+    })
   };
 };
 
 const actionEditPhotoURL = ({ userId, userPhotoURL }) => {
   return {
     type: 'EDIT_USER_PHOTO_URL',
-    payload: () => {
+    payload: new Promise((resolve, reject) => {
       firebaseAuth.currentUser.updateProfile({
-        displayName: userPhotoURL
+        photoURL: userPhotoURL
       });
       rootRef
         .child('users')
         .child(userId)
         .child('photoURL')
         .set(userPhotoURL);
-    }
+      resolve(userPhotoURL);
+    })
   };
 };
 
 const actionEditPhoneNumber = ({ userId, userPhoneNumber }) => {
   return {
     type: 'EDIT_USER_PHONE_NUMBER',
-    payload: () => {
+    payload: new Promise((resolve, reject) => {
       firebaseAuth.currentUser.updateProfile({
-        displayName: userPhoneNumber
+        phoneNumber: userPhoneNumber
       });
       rootRef
         .child('users')
         .child(userId)
         .child('phoneNumber')
         .set(userPhoneNumber);
-    }
+      resolve(userPhoneNumber);
+    })
   };
 };
 

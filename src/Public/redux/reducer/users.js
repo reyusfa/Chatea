@@ -43,6 +43,38 @@ const users = (state = initialState, action) => {
         phoneNumber: action.payload,
         isLoading: false
       };
+    case 'EDIT_USER_DISPLAY_NAME_PENDING':
+      return {
+        ...state,
+        isLoading: true
+      };
+    case 'EDIT_USER_DISPLAY_NAME_REJECTED':
+      return {
+        ...state,
+        isLoading: false
+      };
+    case 'EDIT_USER_DISPLAY_NAME_FULFILLED':
+      return {
+        ...state,
+        displayName: action.payload,
+        isLoading: false
+      };
+    case 'EDIT_USER_PHOTO_URL_PENDING':
+      return {
+        ...state,
+        isLoading: true
+      };
+    case 'EDIT_USER_PHOTO_URL_REJECTED':
+      return {
+        ...state,
+        isLoading: false
+      };
+    case 'EDIT_USER_PHOTO_URL_FULFILLED':
+      return {
+        ...state,
+        photoURL: action.payload,
+        isLoading: false
+      };
     case 'GET_USER_PENDING':
       return {
         ...state,

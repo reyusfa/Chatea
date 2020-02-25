@@ -10,7 +10,8 @@ import {
   actionGetUser,
   actionEditAbout,
   actionEditDisplayName,
-  actionEditPhoneNumber
+  actionEditPhoneNumber,
+  actionEditPhotoURL
 } from './users';
 
 export {
@@ -22,5 +23,6 @@ export {
   actionGetUser,
   actionEditAbout,
   actionEditDisplayName,
-  actionEditPhoneNumber
+  actionEditPhoneNumber,
+  actionEditPhotoURL
 };
