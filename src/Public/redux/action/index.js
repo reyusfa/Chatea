@@ -4,4 +4,23 @@ import {
   actionLogoutRequest
 } from './auth';
 
-export { actionLoginRequest, actionRegisterRequest, actionLogoutRequest };
+import { actionGetChats, actionAddChat } from './chats';
+
+import {
+  actionGetUser,
+  actionEditAbout,
+  actionEditDisplayName,
+  actionEditPhoneNumber
+} from './users';
+
+export {
+  actionLoginRequest,
+  actionRegisterRequest,
+  actionLogoutRequest,
+  actionGetChats,
+  actionAddChat,
+  actionGetUser,
+  actionEditAbout,
+  actionEditDisplayName,
+  actionEditPhoneNumber
+};

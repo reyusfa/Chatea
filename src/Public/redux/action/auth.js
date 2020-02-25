@@ -10,7 +10,12 @@ const actionRegisterRequest = ({ email, password }) => {
           .ref()
           .child('users')
           .child(user.uid)
-          .set({ uid: user.uid, email: user.email });
+          .set({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL
+          });
       })
   };
 };

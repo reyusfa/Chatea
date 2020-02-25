@@ -45,8 +45,7 @@ const auth = (state = initialState, action) => {
     case 'REGISTER_REQUEST_FULFILLED':
       return {
         ...state,
-        isLoading: false,
-        registered: action.payload
+        isLoading: false
       };
     case 'LOGOUT_REQUEST_PENDING':
       return {
