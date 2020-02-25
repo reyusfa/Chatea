@@ -16,7 +16,7 @@ import {
   Contact,
   EditAbout,
   EditName,
-  EditUsername,
+  EditPhone,
   Home,
   ReceiverInfo,
   Setting
@@ -105,7 +105,6 @@ const HomeScreen = screenProps => {
         name="Home"
         component={Home}
         options={{
-          title: 'Chatea',
           headerLeftContainerStyle: {
             width: 50,
             alignItems: 'center',
@@ -134,7 +133,6 @@ const AppContact = ({ navigation, route }) => {
         name="Contact"
         component={Contact}
         options={{
-          title: 'Contact',
           headerLeftContainerStyle: {
             width: 50,
             alignItems: 'center',
@@ -172,7 +170,6 @@ const AppSetting = ({ navigation, route }) => {
         name="Setting"
         component={Setting}
         options={{
-          title: 'Setting',
           headerLeftContainerStyle: {
             width: 50,
             alignItems: 'center',
@@ -189,7 +186,7 @@ const AppSetting = ({ navigation, route }) => {
       />
       <Stack.Screen name="EditAbout" component={EditAbout} />
       <Stack.Screen name="EditName" component={EditName} />
-      <Stack.Screen name="EditUsername" component={EditUsername} />
+      <Stack.Screen name="EditPhone" component={EditPhone} />
     </Stack.Navigator>
   );
 };
