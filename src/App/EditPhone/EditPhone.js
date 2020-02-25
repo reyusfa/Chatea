@@ -6,13 +6,13 @@ import { ListItem, Input } from 'react-native-elements';
 
 import { CustomHeaderButton } from '../../Public/components';
 
-import { actionEditAbout } from '../../Public/redux/action';
+import { actionEditPhoneNumber } from '../../Public/redux/action';
 
-const EditAbout = props => {
-  const { auth, users, editAbout, navigation } = props;
-  const [userAbout, setUserAbout] = useState('');
+const EditPhone = props => {
+  const { auth, users, editPhoneNumber, navigation } = props;
+  const [userPhoneNumber, setUserPhoneNumber] = useState('');
   navigation.setOptions({
-    title: 'Bio',
+    title: 'Phone Number',
     headerRightContainerStyle: {
       width: 50,
       alignItems: 'center',
@@ -23,7 +23,7 @@ const EditAbout = props => {
         iconType="entypo"
         iconName="check"
         onPress={() => {
-          editAbout({ userId: auth.uid, userAbout });
+          editPhoneNumber({ userId: auth.uid, userPhoneNumber });
           navigation.goBack();
         }}
       />
@@ -31,7 +31,7 @@ const EditAbout = props => {
   });
 
   const handleChangeText = text => {
-    setUserAbout(text);
+    setUserPhoneNumber(text);
   };
 
   return (
@@ -39,8 +39,8 @@ const EditAbout = props => {
       <ListItem
         title={
           <Input
-            defaultValue={users.about}
-            placeholder="Bio"
+            defaultValue={users.phoneNumber}
+            placeholder="Phone Number"
             onChangeText={text => handleChangeText(text)}
           />
         }
@@ -55,10 +55,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  editAbout: payload => dispatch(actionEditAbout(payload))
+  editPhoneNumber: payload => dispatch(actionEditPhoneNumber(payload))
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EditAbout);
+)(EditPhone);

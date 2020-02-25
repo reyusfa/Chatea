@@ -3,7 +3,7 @@ import Chat from './Chat';
 import Contact from './Contact';
 import EditAbout from './EditAbout';
 import EditName from './EditName';
-import EditUsername from './EditUsername';
+import EditPhone from './EditPhone';
 import Home from './Home';
 import ReceiverInfo from './ReceiverInfo';
 import Setting from './Setting';
@@ -14,7 +14,7 @@ export {
   Contact,
   EditAbout,
   EditName,
-  EditUsername,
+  EditPhone,
   Home,
   ReceiverInfo,
   Setting

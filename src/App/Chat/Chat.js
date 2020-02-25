@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { View, Text } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
@@ -86,6 +86,11 @@ const Chat = props => {
 
   return (
     <GiftedChat
+      renderLoading={() => (
+        <View style={{ padding: 16 }}>
+          <ActivityIndicator size="large" color={color.Foreground} />
+        </View>
+      )}
       messages={messages}
       user={{
         _id: senderId
