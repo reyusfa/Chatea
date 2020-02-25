@@ -1,16 +1,30 @@
-import React, { Fragment, useEffect, useCallback } from 'react';
-import { Text, ScrollView } from 'react-native';
+import React, { Fragment, useEffect, useCallback, useState } from 'react';
+import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ListItem, Avatar } from 'react-native-elements';
 
 import { color, fontFamily } from '../../Public/components/Styles';
 import { Toast } from '../../Public/components';
+import { launchImagePicker, uploadImage } from '../../Public/helper';
+import path from 'react-native-path';
 
-import { actionGetUser, actionLogoutRequest } from '../../Public/redux/action';
+import {
+  actionGetUser,
+  actionEditPhotoURL,
+  actionLogoutRequest
+} from '../../Public/redux/action';
 
 const Setting = props => {
-  const { auth, users, navigation, getUser, logoutRequest } = props;
+  const {
+    auth,
+    users,
+    navigation,
+    getUser,
+    editPhotoURL,
+    logoutRequest
+  } = props;
+  const [image, setImage] = useState({});
 
   const userId = auth.uid;
 
@@ -22,22 +36,60 @@ const Setting = props => {
     _getUser();
   }, [_getUser]);
 
+  useEffect(() => {
+    if (image.data) {
+    }
+  }, [image]);
+
+  const handleUpload = async data => {
+    await setImage(data);
+    await uploadImage(
+      {
+        path: 'images/profiles',
+        data,
+        fileName: `${auth.uid}${path.extname(data.fileName)}`
+      },
+      async result => {
+        if (result.downloadURL) {
+          await editPhotoURL({
+            userId: auth.uid,
+            userPhotoURL: result.downloadURL
+          });
+        }
+      }
+    );
+  };
+
   return (
     <ScrollView>
       <ListItem
         {...{
-          title: users && users.displayName ? users.displayName : 'User',
+          title: users && users.displayName ? users.displayName : '',
           subtitle: 'Name',
           titleStyle: { fontSize: 20, ...fontFamily.Bold },
-          containerStyle: { elevation: 2 }
+          containerStyle: { elevation: 2 },
+          titleProps: {
+            onPress: () => navigation.navigate('EditName')
+          }
         }}
         leftAvatar={
           <Avatar
             {...{
-              title: 'U',
+              title:
+                users && users.displayName
+                  ? users.displayName[0].toUpperCase()
+                  : '',
+              source: image.uri
+                ? { uri: image.uri }
+                : users.photoURL
+                ? { uri: users.photoURL }
+                : null,
               rounded: true,
-              size: 60,
+              size: 85,
               titleStyle: { color: color.Foreground, fontWeight: 'bold' },
+              placeholderStyle: {
+                backgroundColor: color.Background
+              },
               overlayContainerStyle: {
                 backgroundColor: color.Background,
                 elevation: 2
@@ -67,7 +119,7 @@ const Setting = props => {
               overlayContainerStyle: {
                 backgroundColor: color.Foreground
               },
-              onPress: () => Toast('Edit Image')
+              onPress: () => launchImagePicker(handleUpload)
             }}
           />
         }
@@ -144,7 +196,51 @@ const Setting = props => {
           </Fragment>
         }
       />
-      <Text onPress={() => logoutRequest()}>Logout</Text>
+
+      <ListItem
+        {...{
+          title: 'More',
+          titleStyle: {
+            paddingHorizontal: 6 + 16,
+            paddingTop: 3,
+            paddingBottom: 3,
+            ...fontFamily.Bold,
+            color: color.Foreground
+          },
+          containerStyle: {
+            borderBottomWidth: 1,
+            borderColor: color.Accent2,
+            paddingBottom: 0,
+            paddingHorizontal: 0,
+            marginTop: 32
+          }
+        }}
+        subtitle={
+          <Fragment>
+            <ListItem
+              {...{
+                title: 'Logout',
+                titleStyle: {
+                  ...fontFamily.Regular
+                },
+                subtitle: ': (',
+                subtitleStyle: { fontSize: 12 },
+                containerStyle: {
+                  borderBottomWidth: 1,
+                  borderColor: color.Accent2,
+                  paddingHorizontal: 6 + 16,
+                  paddingVertical: 8
+                },
+                leftIcon: {
+                  type: 'entypo',
+                  name: 'log-out'
+                },
+                onPress: () => logoutRequest()
+              }}
+            />
+          </Fragment>
+        }
+      />
     </ScrollView>
   );
 };
@@ -156,7 +252,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   logoutRequest: () => dispatch(actionLogoutRequest()),
-  getUser: payload => dispatch(actionGetUser(payload))
+  getUser: payload => dispatch(actionGetUser(payload)),
+  editPhotoURL: payload => dispatch(actionEditPhotoURL(payload))
 });
 
 export default connect(
