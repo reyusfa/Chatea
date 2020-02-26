@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
+import { Avatar } from 'react-native-elements';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import {
   firebaseTimestamp,
   firebaseDatabase
 } from '../../Public/config/firebase';
 
-import { color } from '../../Public/components/Styles';
+import { color, fontFamily } from '../../Public/components/Styles';
 
-const objectToArray = object => {
-  return Object.entries(object)
-    .map(([k, v]) => {
-      return {
-        ...v
-      };
-    })
-    .reverse();
-};
-// chats/${chatId}/updatedAt
-// users/${senderId}/chats/${chatId}/updatedAt
-// users/${receiverId}/chats/${chatId}/updatedAt
+import { objectToArray } from '../../Public/helper';
 
 const Chat = props => {
   const { auth, navigation, route } = props;
@@ -31,9 +21,10 @@ const Chat = props => {
 
   const rootRef = firebaseDatabase.ref();
 
-  const sendMessage = async message => {
-    const chatId = route.params.chatId;
+  const chatData = route.params.item;
+  console.log(chatData);
 
+  const sendMessage = async ({ message, chatId }) => {
     const newMessageKey = await rootRef.push().key;
 
     await rootRef.update({
@@ -51,7 +42,7 @@ const Chat = props => {
     try {
       await rootRef
         .child('chats')
-        .child(route.params.chatId)
+        .child(chatData._id)
         .child('messages')
         .limitToLast(15)
         .on('value', result => {
@@ -70,7 +61,7 @@ const Chat = props => {
 
   const getReceiverId = async () => {
     await rootRef
-      .child(`users/${auth.uid}/chats/${route.params.chatId}`)
+      .child(`users/${auth.uid}/chats/${chatData._id}`)
       .on('value', function(result) {
         // console.log(result.val().receiverId);
         setReceiverId(result.val().receiverId);
@@ -86,8 +77,30 @@ const Chat = props => {
 
   return (
     <GiftedChat
+      renderAvatar={() => (
+        <Avatar
+          {...{
+            title:
+              chatData.receiverDisplayName &&
+              chatData.receiverDisplayName[1].toUpperCase(),
+            ...(chatData.receiverPhotoURL
+              ? { source: { uri: chatData.receiverPhotoURL } }
+              : {}),
+            titleStyle: { color: color.Foreground, ...fontFamily.Bold },
+            placeholderStyle: {
+              backgroundColor: color.Background
+            },
+            overlayContainerStyle: {
+              backgroundColor: color.Background,
+              elevation: 2
+            },
+            rounded: true,
+            size: 36
+          }}
+        />
+      )}
       renderLoading={() => (
-        <View style={{ padding: 16 }}>
+        <View {...{ style: { padding: 16 } }}>
           <ActivityIndicator size="large" color={color.Foreground} />
         </View>
       )}
@@ -95,7 +108,7 @@ const Chat = props => {
       user={{
         _id: senderId
       }}
-      onSend={message => sendMessage(message)}
+      onSend={message => sendMessage({ message, chatId: chatData._id })}
       renderBubble={bubbleProps => {
         return (
           <Bubble
