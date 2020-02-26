@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-// import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as yup from 'yup';
@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import { actionRegisterRequest } from '../../Public/redux/action';
 
-// import { color } from '../../Public/components/Styles';
+import { color, fontFamily } from '../../Public/components/Styles';
 import {
   Button,
   Input,
@@ -18,11 +18,13 @@ import {
 } from '../../Public/components';
 
 const defaultValues = {
-  email: 'test@email.com',
+  displayName: 'YZ',
+  email: 'yz@email.com',
   password: 'password'
 };
 
 const RegisterSchema = yup.object().shape({
+  displayName: yup.string().required(),
   email: yup
     .string()
     .email()
@@ -53,7 +55,6 @@ const Register = props => {
     const { email, password } = getValues();
     try {
       await registerRequest({ email, password }).then(result => {
-        console.log(result);
         navigation.navigate('Login');
       });
       setActionLoading(false);
@@ -64,9 +65,33 @@ const Register = props => {
 
   return (
     <ContainerScrollView>
+      <View
+        {...{
+          style: {
+            paddingTop: 24,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }
+        }}>
+        <Text
+          {...{
+            style: { ...fontFamily.Bold, color: color.Foreground, fontSize: 20 }
+          }}>
+          Create New Account
+        </Text>
+      </View>
       <ListItem
         title={
           <Fragment>
+            <Input
+              placeholder="Display Name"
+              ref={register({ name: 'displayName' })}
+              errorMessage={
+                errors.displayName ? errors.displayName.message : ''
+              }
+              onChangeText={handleChange('displayName')}
+              leftIcon={{ name: 'person', type: 'material' }}
+            />
             <Input
               placeholder="Email"
               ref={register({ name: 'email' })}
@@ -80,6 +105,7 @@ const Register = props => {
               errorMessage={errors.password ? errors.password.message : ''}
               onChangeText={handleChange('password')}
               leftIcon={{ name: 'lock', type: 'material' }}
+              secureTextEntry
             />
             <Input
               placeholder="Re-type Password"
@@ -89,6 +115,7 @@ const Register = props => {
               }
               onChangeText={handleChange('reTypePassword')}
               leftIcon={{ name: 'lock', type: 'material' }}
+              secureTextEntry
             />
             <ListItemFooter>
               <Button

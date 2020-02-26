@@ -18,8 +18,8 @@ import {
 } from '../../Public/components';
 
 const defaultValues = {
-  email: 'flipchest@gmail.com',
-  // email: 'test@email.com',
+  // email: 'flipchest@gmail.com',
+  email: 'abcd@email.com',
   password: 'password'
 };
 
@@ -56,23 +56,29 @@ const Login = props => {
   return (
     <ContainerScrollView>
       <View
-        style={{
-          paddingTop: 48,
-          paddingHorizontal: 16,
-          paddingBottom: 16
+        {...{
+          style: {
+            paddingTop: 48,
+            paddingHorizontal: 16,
+            paddingBottom: 16
+          }
         }}>
         <View
-          style={{
-            flex: 1,
-            height: 110
+          {...{
+            style: {
+              flex: 1,
+              height: 110
+            }
           }}>
           <Image
             source={image}
             resizeMode="cover"
-            style={{
-              flex: 1,
-              width: null,
-              height: null
+            {...{
+              style: {
+                flex: 1,
+                width: null,
+                height: null
+              }
             }}
           />
         </View>
@@ -93,6 +99,7 @@ const Login = props => {
               errorMessage={errors.password ? errors.password.message : ''}
               onChangeText={handleChange('password')}
               leftIcon={{ name: 'lock', type: 'material' }}
+              secureTextEntry
             />
             <ListItemFooter>
               <Button
