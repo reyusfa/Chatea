@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
-  DrawerItemList,
   DrawerItem
 } from '@react-navigation/drawer';
 
@@ -19,7 +18,8 @@ import {
   EditPhone,
   Home,
   ReceiverInfo,
-  Setting
+  Setting,
+  People
 } from '../App';
 
 import { color, fontFamily } from '../Public/components/Styles';
@@ -59,13 +59,20 @@ const CustomDrawer = screenProps => {
   const { navigation } = screenProps;
   return (
     <DrawerContentScrollView {...screenProps}>
-      <DrawerItemList {...screenProps} />
       <DrawerItem
         {...screenProps}
         label="Contact"
         onPress={() => {
           navigation.closeDrawer();
           navigation.navigate('AppContact');
+        }}
+      />
+      <DrawerItem
+        {...screenProps}
+        label="People"
+        onPress={() => {
+          navigation.closeDrawer();
+          navigation.navigate('AppPeople');
         }}
       />
       <DrawerItem
@@ -163,6 +170,31 @@ const AppHome = screenProps => {
   );
 };
 
+const AppPeople = ({ navigation, route }) => {
+  return (
+    <Stack.Navigator initialRouteName="People" {...screenOptions()}>
+      <Stack.Screen
+        name="People"
+        component={People}
+        options={{
+          headerLeftContainerStyle: {
+            width: 50,
+            alignItems: 'center',
+            marginHorizontal: 3
+          },
+          headerLeft: () => (
+            <CustomHeaderButton
+              iconType="material-community-icons"
+              iconName="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const AppSetting = ({ navigation, route }) => {
   return (
     <Stack.Navigator initialRouteName="Setting" {...screenOptions()}>
@@ -194,8 +226,9 @@ const AppSetting = ({ navigation, route }) => {
 const AppNavigator = screenProps => {
   return (
     <Stack.Navigator initialRouteName="AppHome" {...hideHeader()}>
-      <Stack.Screen name="AppContact" component={AppContact} />
       <Stack.Screen name="AppHome" component={AppHome} />
+      <Stack.Screen name="AppContact" component={AppContact} />
+      <Stack.Screen name="AppPeople" component={AppPeople} />
       <Stack.Screen name="AppSetting" component={AppSetting} />
     </Stack.Navigator>
   );
