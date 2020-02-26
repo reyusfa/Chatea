@@ -7,6 +7,7 @@ import EditPhone from './EditPhone';
 import Home from './Home';
 import ReceiverInfo from './ReceiverInfo';
 import Setting from './Setting';
+import People from './People';
 
 export {
   AddChat,
@@ -17,5 +18,6 @@ export {
   EditPhone,
   Home,
   ReceiverInfo,
-  Setting
+  Setting,
+  People
 };
