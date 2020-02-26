@@ -7,11 +7,14 @@ import { color } from './Styles';
 const Button = props => {
   return (
     <EButton
-      titleStyle={styles.buttonTitle}
-      buttonStyle={styles.buttonButton}
-      disabledTitleStyle={styles.buttonTitle}
-      disabledStyle={styles.buttonButton}
       {...props}
+      titleStyle={{ ...styles.buttonTitle, ...props.titleStyle }}
+      buttonStyle={{ ...styles.buttonButton, ...props.buttonStyle }}
+      disabledTitleStyle={{
+        ...styles.buttonTitle,
+        ...props.disabledTitleStyle
+      }}
+      disabledStyle={{ ...styles.buttonButton, ...props.disabledStyle }}
     />
   );
 };
