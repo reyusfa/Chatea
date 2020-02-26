@@ -15,6 +15,8 @@ import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
 import io.invertase.firebase.database.ReactNativeFirebaseDatabasePackage;
 import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 
+import org.devio.rn.splashscreen.SplashScreen;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -35,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new ReactNativeFirebaseAuthPackage());
           // packages.add(new ReactNativeFirebaseDatabasePackage());
           // packages.add(new ReactNativeFirebaseStoragePackage());
+          // packages.add(new SplashScreenReactPackage());
           return packages;
         }
 
