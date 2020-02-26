@@ -34,16 +34,14 @@ const launchImagePicker = callback => {
 };
 
 const uploadImage = async ({ path, data, fileName }, callback) => {
-  // console.log(data.fileName);
   const rootRef = firebaseStorage.ref();
   if (data.uri) {
     await fetch(data.uri)
       .then(file => {
         return file.blob();
       })
-      .then(async blob => {
-        // console.log(blob);
-        await rootRef
+      .then(blob => {
+        rootRef
           .child(path)
           .child(fileName ? fileName : data.fileName)
           .put(blob)
