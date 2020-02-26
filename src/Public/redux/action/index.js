@@ -11,7 +11,8 @@ import {
   actionEditAbout,
   actionEditDisplayName,
   actionEditPhoneNumber,
-  actionEditPhotoURL
+  actionEditPhotoURL,
+  actionAddContact
 } from './users';
 
 export {
@@ -24,5 +25,6 @@ export {
   actionEditAbout,
   actionEditDisplayName,
   actionEditPhoneNumber,
-  actionEditPhotoURL
+  actionEditPhotoURL,
+  actionAddContact
 };
