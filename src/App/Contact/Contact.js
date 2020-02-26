@@ -54,9 +54,10 @@ const Contact = props => {
       await addChat({ senderId: userId, receiverId }).then(result => {
         // console.log(result);
         if (result.value.code === 'CHAT_ADDED') {
-          navigation.navigate('Chat', { chatId: result.value.chatId });
+          navigation.navigate('Chat', { item: result.value.data });
         } else if (result.value.code === 'CHAT_EXISTS') {
-          navigation.navigate('Chat', { chatId: result.value.chatId });
+          // console.log(result.value);
+          navigation.navigate('Chat', { item: result.value.data });
         }
       });
     } catch (error) {

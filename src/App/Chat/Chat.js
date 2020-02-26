@@ -22,7 +22,16 @@ const Chat = props => {
   const rootRef = firebaseDatabase.ref();
 
   const chatData = route.params.item;
-  console.log(chatData);
+
+  navigation.setOptions({
+    title: () => (
+      <View>
+        <Text>
+          {chatData.receiverDisplayName ? chatData.receiverDisplayName : ''}
+        </Text>
+      </View>
+    )
+  });
 
   const sendMessage = async ({ message, chatId }) => {
     const newMessageKey = await rootRef.push().key;
@@ -33,7 +42,9 @@ const Chat = props => {
         createdAt: firebaseTimestamp
       },
       [`users/${senderId}/chats/${chatId}/updatedAt`]: firebaseTimestamp,
+      [`users/${senderId}/chats/${chatId}/lastMessage`]: message[0],
       [`users/${receiverId}/chats/${chatId}/updatedAt`]: firebaseTimestamp,
+      [`users/${receiverId}/chats/${chatId}/lastMessage`]: message[0],
       [`chats/${chatId}/updatedAt`]: firebaseTimestamp
     });
   };

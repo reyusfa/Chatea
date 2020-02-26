@@ -56,7 +56,13 @@ const Home = props => {
           <ListItem
             {...{
               title: item.receiverDisplayName,
-              subtitle: `${item.receiverDisplayName}: ...`,
+              subtitle:
+                (item.lastMessage &&
+                item.lastMessage.user._id === item.receiverId
+                  ? item.receiverDisplayName
+                    ? `${item.receiverDisplayName}: `
+                    : ''
+                  : '') + (item.lastMessage ? item.lastMessage.text : ''),
               titleStyle: { paddingBottom: 8, ...fontFamily.Bold },
               subtitleStyle: { ...fontFamily.Regular },
               titleProps: { numberOfLines: 1 },

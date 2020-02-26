@@ -53,21 +53,30 @@ const actionAddChat = ({ senderId, receiverId }) => {
                 });
               });
 
-              rootRef.update({
-                [`users/${senderId}/chats/${newChatKey}/updatedAt`]: firebaseTimestamp,
+              await rootRef
+                .update({
+                  [`users/${senderId}/chats/${newChatKey}/updatedAt`]: firebaseTimestamp,
 
-                [`users/${receiverId}/chats/${newChatKey}/updatedAt`]: firebaseTimestamp,
+                  [`users/${receiverId}/chats/${newChatKey}/updatedAt`]: firebaseTimestamp,
 
-                [`chats/${newChatKey}/_id`]: newChatKey,
-                [`chats/${newChatKey}/updatedAt`]: firebaseTimestamp
+                  [`chats/${newChatKey}/_id`]: newChatKey,
+                  [`chats/${newChatKey}/updatedAt`]: firebaseTimestamp
+                })
+                .then(console.log);
+
+              resolve({
+                code: 'CHAT_ADDED',
+                data: {
+                  _id: newChatKey
+                }
               });
-              resolve({ code: 'CHAT_ADDED', chatId: newChatKey });
             } else {
-              // console.log(Object.keys(chatRoom.val())[0]);
+              // console.log(Object.values(chatRoom.val())[0]);
               resolve({
                 code: 'CHAT_EXISTS',
-                chatId:
-                  Object.keys(chatRoom.val()) && Object.keys(chatRoom.val())[0]
+                data:
+                  Object.values(chatRoom.val()) &&
+                  Object.values(chatRoom.val())[0]
               });
             }
           });
