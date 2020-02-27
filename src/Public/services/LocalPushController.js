@@ -4,7 +4,7 @@ import { firebaseDatabase } from '../../Public/config/firebase';
 
 PushNotification.configure({
   onNotification: function(notification) {
-    console.log('LOCAL NOTIFICATION: ', notification);
+    // console.log('LOCAL NOTIFICATION: ', notification);
   },
   popInitialNotification: true,
   requestPermissions: true
@@ -35,7 +35,7 @@ const NotificationsListener = ({ userId }) => {
       .orderByChild('delivered')
       .equalTo(false)
       .on('child_added', snap => {
-        console.log(snap.val());
+        // console.log(snap.val());
         LocalNotification({ message: snap.val().content.text });
         notifRef
           .child(snap.val()._id)

@@ -16,7 +16,6 @@ import { objectToArray } from '../../Public/helper';
 const Chat = props => {
   const { auth, navigation, route } = props;
   const [messages, setMessages] = useState([]);
-  // const [lastMessages, setLastMessages] = useState([]);
   const [senderId, setSenderId] = useState(null);
   const [receiverId, setReceiverId] = useState(null);
 

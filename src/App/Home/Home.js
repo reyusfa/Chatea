@@ -106,7 +106,12 @@ const Home = props => {
                   }}
                 />
               }
-              onPress={() => navigation.navigate('Chat', { item })}
+              onPress={() =>
+                navigation.navigate('AppChat', {
+                  screen: 'Chat',
+                  params: { item: item }
+                })
+              }
             />
           );
         }}

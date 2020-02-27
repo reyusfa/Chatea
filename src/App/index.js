@@ -8,6 +8,7 @@ import Home from './Home';
 import ContactInfo from './ContactInfo';
 import Setting from './Setting';
 import People from './People';
+import UserLocation from './UserLocation';
 
 export {
   AddChat,
@@ -19,5 +20,6 @@ export {
   Home,
   ContactInfo,
   Setting,
-  People
+  People,
+  UserLocation
 };

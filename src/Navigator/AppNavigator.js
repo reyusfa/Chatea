@@ -21,7 +21,8 @@ import {
   Home,
   ContactInfo,
   Setting,
-  People
+  People,
+  UserLocation
 } from '../App';
 
 import { color, fontFamily } from '../Public/components/Styles';
@@ -180,7 +181,56 @@ const HomeScreen = screenProps => {
         }}
       />
       <Stack.Screen name="AddChat" component={AddChat} />
-      <Stack.Screen name="Chat" component={Chat} />
+    </Stack.Navigator>
+  );
+};
+
+const AppChat = ({ navigation, route }) => {
+  return (
+    <Stack.Navigator initialRouteName="Chat" {...screenOptions()}>
+      <Stack.Screen
+        name="Chat"
+        component={Chat}
+        options={{
+          headerLeftContainerStyle: {
+            width: 50,
+            alignItems: 'center',
+            marginHorizontal: 3
+          },
+          headerLeft: () => (
+            <CustomHeaderButton
+              iconType="material-community-icons"
+              iconName="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const AppUserLocation = ({ navigation, route }) => {
+  return (
+    <Stack.Navigator initialRouteName="UserLocation" {...screenOptions()}>
+      <Stack.Screen
+        name="UserLocation"
+        component={UserLocation}
+        options={{
+          headerLeftContainerStyle: {
+            width: 50,
+            alignItems: 'center',
+            marginHorizontal: 3
+          },
+          headerLeft: () => (
+            <CustomHeaderButton
+              iconType="material-community-icons"
+              iconName="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          )
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -280,6 +330,8 @@ const AppNavigator = screenProps => {
   return (
     <Stack.Navigator initialRouteName="AppHome" {...hideHeader()}>
       <Stack.Screen name="AppHome" component={AppHome} />
+      <Stack.Screen name="AppUserLocation" component={AppUserLocation} />
+      <Stack.Screen name="AppChat" component={AppChat} />
       <Stack.Screen name="AppContact" component={AppContact} />
       <Stack.Screen name="AppPeople" component={AppPeople} />
       <Stack.Screen name="AppSetting" component={AppSetting} />

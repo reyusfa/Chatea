@@ -99,7 +99,7 @@ const Setting = props => {
             {...{
               activeOpacity: 0.8,
               icon: {
-                type: 'entypo',
+                type: 'feather',
                 name: 'camera',
                 size: 25
               },
@@ -229,7 +229,7 @@ const Setting = props => {
                   paddingVertical: 8
                 },
                 leftIcon: {
-                  type: 'entypo',
+                  type: 'feather',
                   name: 'log-out'
                 },
                 onPress: () => logoutRequest()

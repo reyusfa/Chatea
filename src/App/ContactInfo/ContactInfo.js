@@ -1,22 +1,43 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ListItem, Avatar } from 'react-native-elements';
 
+import { firebaseDatabase } from '../../Public/config/firebase';
+
 import { color, fontFamily } from '../../Public/components/Styles';
-import { LocalNotification } from '../../Public/services/LocalPushController';
 
 const ContactInfo = props => {
-  const { navigation, route } = props;
+  const { navigation, route, auth } = props;
+  const [chat, setChat] = useState([]);
   const { contact } = route.params;
 
   navigation.setOptions({
     title: 'Contact Info'
   });
 
-  const { item } = route.params;
-  console.log(item);
+  const rootRef = firebaseDatabase.ref();
+  const senderId = auth.uid;
+
+  const getChat = useCallback(async () => {
+    try {
+      await rootRef
+        .child('users')
+        .child(senderId)
+        .child('chats')
+        .orderByChild('receiverId')
+        .equalTo(contact._id)
+        .on('value', result => {
+          const data = result.val() !== null ? result.val() : {};
+          setChat(Object.values(data)[0]);
+        });
+    } catch (error) {}
+  }, [senderId, rootRef, contact]);
+
+  useEffect(() => {
+    getChat();
+  }, [getChat]);
 
   return (
     <ScrollView>
@@ -53,8 +74,8 @@ const ContactInfo = props => {
             {...{
               activeOpacity: 0.8,
               icon: {
-                type: 'entypo',
-                name: 'chat',
+                type: 'feather',
+                name: 'message-circle',
                 size: 25
               },
               containerStyle: {
@@ -70,8 +91,11 @@ const ContactInfo = props => {
               overlayContainerStyle: {
                 backgroundColor: color.Foreground
               },
-              // onPress: () => navigation.navigate('Chat', { item: {} })
-              onPress: () => LocalNotification()
+              onPress: () =>
+                navigation.navigate('AppChat', {
+                  screen: 'Chat',
+                  params: { item: chat }
+                })
             }}
           />
         }
@@ -147,11 +171,64 @@ const ContactInfo = props => {
           </Fragment>
         }
       />
+      <ListItem
+        {...{
+          title: 'More',
+          titleStyle: {
+            paddingHorizontal: 6 + 16,
+            paddingTop: 3,
+            paddingBottom: 3,
+            ...fontFamily.Bold,
+            color: color.Foreground
+          },
+          containerStyle: {
+            borderBottomWidth: 1,
+            borderColor: color.Accent2,
+            paddingBottom: 0,
+            paddingHorizontal: 0,
+            marginTop: 32
+          }
+        }}
+        subtitle={
+          <ListItem
+            {...{
+              title: 'Location',
+              titleStyle: {
+                ...fontFamily.Regular
+              },
+              subtitle: 'Show user location',
+              subtitleStyle: { fontSize: 12 },
+              containerStyle: {
+                borderBottomWidth: 1,
+                borderColor: color.Accent2,
+                paddingHorizontal: 6 + 16,
+                paddingVertical: 8
+              },
+              leftIcon: {
+                type: 'feather',
+                name: 'map-pin'
+              },
+              onPress: () =>
+                navigation.navigate('AppUserLocation', {
+                  screen: 'UserLocation',
+                  params: {
+                    coordinate: {
+                      latitude: -7.5591225,
+                      longitude: 110.7837924
+                    }
+                  }
+                })
+            }}
+          />
+        }
+      />
     </ScrollView>
   );
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 const mapDispatchToProps = dispatch => ({});
 
