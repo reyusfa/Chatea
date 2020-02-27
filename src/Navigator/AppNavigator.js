@@ -1,13 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem
-} from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
 
-import { View, StyleSheet, TouchableNativeFeedback } from 'react-native';
-import { Icon } from 'react-native-elements';
+import {
+  View,
+  StyleSheet,
+  TouchableNativeFeedback,
+  ScrollView
+} from 'react-native';
+import { Icon, ListItem, Avatar } from 'react-native-elements';
 
 import {
   AddChat,
@@ -17,7 +19,7 @@ import {
   EditName,
   EditPhone,
   Home,
-  ReceiverInfo,
+  ContactInfo,
   Setting,
   People
 } from '../App';
@@ -52,13 +54,59 @@ const drawerContentOptions = () => ({
     labelStyle: { ...fontFamily.Bold },
     activeTintColor: color.Foreground,
     activeBackgroundColor: color.Background
+  },
+  drawerStyle: {
+    width: 250
   }
 });
 
 const CustomDrawer = screenProps => {
+  const users = useSelector(state => state.users);
   const { navigation } = screenProps;
   return (
-    <DrawerContentScrollView {...screenProps}>
+    <ScrollView {...screenProps}>
+      <View {...{ style: { backgroundColor: color.Background, padding: 8 } }}>
+        <View {...{ style: { padding: 8 } }}>
+          <Avatar
+            {...{
+              title:
+                users && users.displayName
+                  ? users.displayName[0].toUpperCase()
+                  : '',
+              source: users.photoURL ? { uri: users.photoURL } : null,
+              rounded: true,
+              size: 100,
+              titleStyle: { color: color.Foreground, fontWeight: 'bold' },
+              placeholderStyle: {
+                backgroundColor: color.Background
+              },
+              overlayContainerStyle: {
+                backgroundColor: color.Background,
+                elevation: 2
+              }
+            }}
+          />
+        </View>
+        <ListItem
+          {...{
+            title: users && users.displayName ? users.displayName : '',
+            subtitle: users && users.email ? users.email : '',
+            titleStyle: {
+              fontSize: 20,
+              ...fontFamily.Bold,
+              color: color.Foreground
+            },
+            subtitleStyle: {
+              color: color.Foreground
+            },
+            containerStyle: {
+              backgroundColor: color.Background,
+              paddingHorizontal: 8,
+              paddingVertical: 0
+            }
+          }}
+        />
+      </View>
       <DrawerItem
         {...screenProps}
         label="Contact"
@@ -66,6 +114,7 @@ const CustomDrawer = screenProps => {
           navigation.closeDrawer();
           navigation.navigate('AppContact');
         }}
+        icon={() => <Icon type="feather" name="users" color={color.Accent1} />}
       />
       <DrawerItem
         {...screenProps}
@@ -74,6 +123,7 @@ const CustomDrawer = screenProps => {
           navigation.closeDrawer();
           navigation.navigate('AppPeople');
         }}
+        icon={() => <Icon type="feather" name="globe" color={color.Accent1} />}
       />
       <DrawerItem
         {...screenProps}
@@ -82,8 +132,11 @@ const CustomDrawer = screenProps => {
           navigation.closeDrawer();
           navigation.navigate('AppSetting');
         }}
+        icon={() => (
+          <Icon type="feather" name="settings" color={color.Accent1} />
+        )}
       />
-    </DrawerContentScrollView>
+    </ScrollView>
   );
 };
 
@@ -128,7 +181,6 @@ const HomeScreen = screenProps => {
       />
       <Stack.Screen name="AddChat" component={AddChat} />
       <Stack.Screen name="Chat" component={Chat} />
-      <Stack.Screen name="ReceiverInfo" component={ReceiverInfo} />
     </Stack.Navigator>
   );
 };
@@ -154,6 +206,7 @@ const AppContact = ({ navigation, route }) => {
           )
         }}
       />
+      <Stack.Screen name="ContactInfo" component={ContactInfo} />
     </Stack.Navigator>
   );
 };

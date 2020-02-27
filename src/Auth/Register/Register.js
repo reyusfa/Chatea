@@ -18,9 +18,9 @@ import {
 } from '../../Public/components';
 
 const defaultValues = {
-  displayName: 'YZ',
-  email: 'yz@email.com',
-  password: 'password'
+  displayName: '',
+  email: '',
+  password: ''
 };
 
 const RegisterSchema = yup.object().shape({

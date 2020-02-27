@@ -47,9 +47,6 @@ const Contact = props => {
   }, [_getContacts]);
 
   const _addChat = async ({ receiverId }) => {
-    // const receiverId = '8PCQDERsEWb4JQTtkyQvjjRKJlp1';
-    // const receiverId = '1';
-
     try {
       await addChat({ senderId: userId, receiverId }).then(result => {
         // console.log(result);
@@ -79,10 +76,20 @@ const Contact = props => {
             {...{
               title: item.displayName || item.email,
               ...(item.email && item.displayName
-                ? { subtitle: item.email }
+                ? {
+                    subtitle: item.email,
+                    subtitleProps: {
+                      onPress: () =>
+                        navigation.navigate('ContactInfo', { contact: item })
+                    }
+                  }
                 : {}),
               titleStyle: { ...fontFamily.Bold },
-              titleProps: { numberOfLines: 1 },
+              titleProps: {
+                numberOfLines: 1,
+                onPress: () =>
+                  navigation.navigate('ContactInfo', { contact: item })
+              },
               containerStyle: {
                 padding: 10,
                 borderColor: color.Accent2,
@@ -106,7 +113,10 @@ const Contact = props => {
                     elevation: 2
                   },
                   rounded: true,
-                  size: 55
+                  size: 55,
+                  activeOpacity: 0.7,
+                  onPress: () =>
+                    navigation.navigate('ContactInfo', { contact: item })
                 }}
               />
             }

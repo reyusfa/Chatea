@@ -36,11 +36,6 @@ const Setting = props => {
     _getUser();
   }, [_getUser]);
 
-  useEffect(() => {
-    if (image.data) {
-    }
-  }, [image]);
-
   const handleUpload = async data => {
     await setImage(data);
     await uploadImage(
@@ -54,6 +49,8 @@ const Setting = props => {
           await editPhotoURL({
             userId: auth.uid,
             userPhotoURL: result.downloadURL
+          }).then(() => {
+            Toast('Profile image has been updated.');
           });
         }
       }

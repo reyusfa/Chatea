@@ -35,11 +35,6 @@ const actionEditAbout = ({ userId, userAbout }) => {
   return {
     type: 'EDIT_USER_ABOUT',
     payload: new Promise((resolve, reject) => {
-      // rootRef
-      //   .child('users')
-      //   .child(userId)
-      //   .child('about')
-      //   .set(userAbout);
       rootRef.update({
         [`users/${userId}/about`]: userAbout,
         [`peoples/${userId}/about`]: userAbout
@@ -56,11 +51,6 @@ const actionEditDisplayName = ({ userId, userDisplayName }) => {
       firebaseAuth.currentUser.updateProfile({
         displayName: userDisplayName
       });
-      // rootRef
-      //   .child('users')
-      //   .child(userId)
-      //   .child('displayName')
-      //   .set(userDisplayName);
       rootRef.update({
         [`users/${userId}/displayName`]: userDisplayName,
         [`peoples/${userId}/displayName`]: userDisplayName
@@ -77,11 +67,6 @@ const actionEditPhotoURL = ({ userId, userPhotoURL }) => {
       firebaseAuth.currentUser.updateProfile({
         photoURL: userPhotoURL
       });
-      // rootRef
-      //   .child('users')
-      //   .child(userId)
-      //   .child('photoURL')
-      //   .set(userPhotoURL);
       rootRef.update({
         [`users/${userId}/photoURL`]: userPhotoURL,
         [`peoples/${userId}/photoURL`]: userPhotoURL
@@ -98,11 +83,6 @@ const actionEditPhoneNumber = ({ userId, userPhoneNumber }) => {
       firebaseAuth.currentUser.updateProfile({
         phoneNumber: userPhoneNumber
       });
-      // rootRef
-      //   .child('users')
-      //   .child(userId)
-      //   .child('phoneNumber')
-      //   .set(userPhoneNumber);
       rootRef.update({
         [`users/${userId}/phoneNumber`]: userPhoneNumber,
         [`peoples/${userId}/phoneNumber`]: userPhoneNumber

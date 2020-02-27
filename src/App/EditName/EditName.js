@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import { ListItem, Input } from 'react-native-elements';
 
-import { CustomHeaderButton } from '../../Public/components';
+import { CustomHeaderButton, Toast } from '../../Public/components';
 
 import { actionEditDisplayName } from '../../Public/redux/action';
 
@@ -55,6 +55,7 @@ const EditName = props => {
         userDisplayName: displayName
       }).then(() => {
         setActionLoading(false);
+        Toast('Name has been updated.');
         navigation.goBack();
       });
     } catch (error) {

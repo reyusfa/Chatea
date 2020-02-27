@@ -5,7 +5,7 @@ import EditAbout from './EditAbout';
 import EditName from './EditName';
 import EditPhone from './EditPhone';
 import Home from './Home';
-import ReceiverInfo from './ReceiverInfo';
+import ContactInfo from './ContactInfo';
 import Setting from './Setting';
 import People from './People';
 
@@ -17,7 +17,7 @@ export {
   EditName,
   EditPhone,
   Home,
-  ReceiverInfo,
+  ContactInfo,
   Setting,
   People
 };

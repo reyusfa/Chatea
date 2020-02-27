@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 
-import { actionLoginRequest } from '../../Public/redux/action';
+import { actionLoginRequest, actionGetUser } from '../../Public/redux/action';
 
 // import { color } from '../../Public/components/Styles';
 import {
@@ -31,7 +31,7 @@ const LoginSchema = yup.object().shape({
 const image = require('../../../assets/images/chatea.png');
 
 const Login = props => {
-  const { loginRequest, navigation } = props;
+  const { loginRequest, getUser, navigation } = props;
   const [actionLoading, setActionLoading] = useState(false);
   const { register, handleSubmit, setValue, errors, getValues } = useForm({
     defaultValues,
@@ -46,7 +46,9 @@ const Login = props => {
     setActionLoading(true);
     const { email, password } = getValues();
     try {
-      await loginRequest({ email, password });
+      await loginRequest({ email, password }).then(async ({ value }) => {
+        await getUser({ userId: value.user.uid });
+      });
       setActionLoading(false);
     } catch (error) {
       setActionLoading(false);
@@ -133,7 +135,8 @@ const Login = props => {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  loginRequest: payload => dispatch(actionLoginRequest(payload))
+  loginRequest: payload => dispatch(actionLoginRequest(payload)),
+  getUser: payload => dispatch(actionGetUser(payload))
 });
 
 export default connect(

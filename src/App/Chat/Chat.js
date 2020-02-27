@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Avatar } from 'react-native-elements';
@@ -24,13 +24,7 @@ const Chat = props => {
   const chatData = route.params.item;
 
   navigation.setOptions({
-    title: () => (
-      <View>
-        <Text>
-          {chatData.receiverDisplayName ? chatData.receiverDisplayName : ''}
-        </Text>
-      </View>
-    )
+    title: chatData.receiverDisplayName ? chatData.receiverDisplayName : 'Chat'
   });
 
   const sendMessage = async ({ message, chatId }) => {
@@ -49,7 +43,7 @@ const Chat = props => {
     });
   };
 
-  const getMessages = async () => {
+  const getMessages = useCallback(async () => {
     try {
       await rootRef
         .child('chats')
@@ -59,32 +53,29 @@ const Chat = props => {
         .on('value', result => {
           const data = result.val() !== null ? result.val() : {};
           setMessages(objectToArray(data));
-          // console.log(objectToArray(data));
         });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
-  };
+  }, [rootRef, chatData]);
 
-  const getSenderId = () => {
+  const getSenderId = useCallback(() => {
     setSenderId(auth.uid);
-  };
+  }, [auth]);
 
-  const getReceiverId = async () => {
+  const getReceiverId = useCallback(async () => {
     await rootRef
       .child(`users/${auth.uid}/chats/${chatData._id}`)
       .on('value', function(result) {
-        // console.log(result.val().receiverId);
         setReceiverId(result.val().receiverId);
       });
-  };
+  }, [auth, chatData, rootRef]);
 
   useEffect(() => {
-    getSenderId();
     getMessages();
+    getSenderId();
     getReceiverId();
-    // console.log(messages);
-  }, []);
+  }, [getMessages, getSenderId, getReceiverId]);
 
   return (
     <GiftedChat
@@ -93,7 +84,7 @@ const Chat = props => {
           {...{
             title:
               chatData.receiverDisplayName &&
-              chatData.receiverDisplayName[1].toUpperCase(),
+              chatData.receiverDisplayName[0].toUpperCase(),
             ...(chatData.receiverPhotoURL
               ? { source: { uri: chatData.receiverPhotoURL } }
               : {}),

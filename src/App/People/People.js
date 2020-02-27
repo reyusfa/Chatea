@@ -27,7 +27,11 @@ const People = props => {
   const _getPeoples = useCallback(async () => {
     setRenderLoading(true);
     try {
-      await rootRef.child('peoples').on('value', result => {
+      await rootRef.child('peoples').on('value', async result => {
+        // const contact = await rootRef.child('contacts').child(auth.uid)
+
+        // console.log(result);
+
         const data = result.val() !== null ? result.val() : {};
         setPeoples(objectToArray(data));
         setRenderLoading(false);
@@ -43,9 +47,6 @@ const People = props => {
   }, [_getPeoples]);
 
   const _addContact = async ({ peopleId }) => {
-    // const receiverId = '8PCQDERsEWb4JQTtkyQvjjRKJlp1';
-    // const receiverId = '1';
-
     try {
       await addContact({ userId: auth.uid, peopleId });
     } catch (error) {

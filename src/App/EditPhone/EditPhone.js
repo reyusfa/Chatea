@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import { ListItem, Input } from 'react-native-elements';
 
-import { CustomHeaderButton } from '../../Public/components';
+import { CustomHeaderButton, Toast } from '../../Public/components';
 
 import { actionEditPhoneNumber } from '../../Public/redux/action';
 
@@ -55,6 +55,7 @@ const EditPhone = props => {
         userPhoneNumber: phoneNumber
       }).then(() => {
         setActionLoading(false);
+        Toast('Phone number has been updated.');
         navigation.goBack();
       });
     } catch (error) {

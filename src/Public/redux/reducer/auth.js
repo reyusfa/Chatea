@@ -58,9 +58,7 @@ const auth = (state = initialState, action) => {
         isLoading: false
       };
     case 'LOGOUT_REQUEST_FULFILLED':
-      return {
-        ...initialState
-      };
+      return initialState;
     default:
       return state;
   }

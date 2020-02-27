@@ -1,5 +1,3 @@
-import { Toast } from '../../components';
-
 const initialState = {
   data: [],
   isLoading: false
@@ -20,7 +18,6 @@ const chats = (state = initialState, action) => {
     case 'GET_CHATS_FULFILLED':
       return {
         ...state,
-        data: action.payload,
         isLoading: false
       };
     case 'ADD_CHAT_PENDING':
