@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { ListItem, Avatar } from 'react-native-elements';
 
 import { color, fontFamily } from '../../Public/components/Styles';
+import { LocalNotification } from '../../Public/services/LocalPushController';
 
 const ContactInfo = props => {
   const { navigation, route } = props;
@@ -15,7 +16,7 @@ const ContactInfo = props => {
   });
 
   const { item } = route.params;
-  // console.log(item);
+  console.log(item);
 
   return (
     <ScrollView>
@@ -69,7 +70,8 @@ const ContactInfo = props => {
               overlayContainerStyle: {
                 backgroundColor: color.Foreground
               },
-              onPress: () => navigation.navigate('Chat', { item: {} })
+              // onPress: () => navigation.navigate('Chat', { item: {} })
+              onPress: () => LocalNotification()
             }}
           />
         }

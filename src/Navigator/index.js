@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { firebaseAuth } from '../Public/config/firebase';
 
 import AppNavigator from './AppNavigator';
 import AuthNavigator from './AuthNavigator';
 
-import { actionLogoutRequest } from '../Public/redux/action';
+import { NotificationsListener } from '../Public/services/LocalPushController';
 
 const MainNavigator = props => {
-  const { auth, logoutRequest } = props;
-
-  useEffect(() => {}, []);
+  const { auth } = props;
 
   return auth && auth.isLogout ? (
     <AuthNavigator {...props} />
   ) : (
-    <AppNavigator {...props} />
+    <Fragment>
+      <AppNavigator {...props} />
+      <NotificationsListener userId={auth.uid} />
+    </Fragment>
   );
 };
 
@@ -23,9 +23,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-const mapDispatchToProps = dispatch => ({
-  logoutRequest: () => dispatch(actionLogoutRequest())
-});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(
   mapStateToProps,

@@ -19,7 +19,7 @@ import {
 
 const defaultValues = {
   // email: 'flipchest@gmail.com',
-  email: 'abcd@email.com',
+  email: 'efgh@email.com',
   password: 'password'
 };
 

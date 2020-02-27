@@ -16,6 +16,7 @@ import { objectToArray } from '../../Public/helper';
 const Chat = props => {
   const { auth, navigation, route } = props;
   const [messages, setMessages] = useState([]);
+  // const [lastMessages, setLastMessages] = useState([]);
   const [senderId, setSenderId] = useState(null);
   const [receiverId, setReceiverId] = useState(null);
 
@@ -39,7 +40,11 @@ const Chat = props => {
       [`users/${senderId}/chats/${chatId}/lastMessage`]: message[0],
       [`users/${receiverId}/chats/${chatId}/updatedAt`]: firebaseTimestamp,
       [`users/${receiverId}/chats/${chatId}/lastMessage`]: message[0],
-      [`chats/${chatId}/updatedAt`]: firebaseTimestamp
+      [`chats/${chatId}/updatedAt`]: firebaseTimestamp,
+      [`notifications/${receiverId}/${newMessageKey}/_id`]: newMessageKey,
+      [`notifications/${receiverId}/${newMessageKey}/content`]: message[0],
+      [`notifications/${receiverId}/${newMessageKey}/createdAt`]: firebaseTimestamp,
+      [`notifications/${receiverId}/${newMessageKey}/delivered`]: false
     });
   };
 
@@ -49,9 +54,8 @@ const Chat = props => {
         .child('chats')
         .child(chatData._id)
         .child('messages')
-        .limitToLast(15)
-        .on('value', result => {
-          const data = result.val() !== null ? result.val() : {};
+        .on('value', snap => {
+          const data = snap.val() !== null ? snap.val() : {};
           setMessages(objectToArray(data));
         });
     } catch (error) {
