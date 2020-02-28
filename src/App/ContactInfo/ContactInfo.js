@@ -8,10 +8,13 @@ import { firebaseDatabase } from '../../Public/config/firebase';
 
 import { color, fontFamily } from '../../Public/components/Styles';
 
+import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from 'react-native-dotenv';
+
 const ContactInfo = props => {
   const { navigation, route, auth } = props;
   const [chat, setChat] = useState([]);
   const { contact } = route.params;
+  console.log(contact);
 
   navigation.setOptions({
     title: 'Contact Info'
@@ -38,6 +41,9 @@ const ContactInfo = props => {
   useEffect(() => {
     getChat();
   }, [getChat]);
+
+  console.log(DEFAULT_LATITUDE);
+  console.log(DEFAULT_LONGITUDE);
 
   return (
     <ScrollView>
@@ -213,8 +219,7 @@ const ContactInfo = props => {
                   screen: 'UserLocation',
                   params: {
                     coordinate: {
-                      latitude: -7.5591225,
-                      longitude: 110.7837924
+                      _id: contact._id
                     }
                   }
                 })

@@ -16,6 +16,8 @@ import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
 import io.invertase.firebase.database.ReactNativeFirebaseDatabasePackage;
 import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 
+// import com.reactnativecommunity.geolocation.GeolocationPackage;
+
 import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -39,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new ReactNativeFirebaseDatabasePackage());
           // packages.add(new ReactNativeFirebaseStoragePackage());
           // packages.add(new SplashScreenReactPackage());
+          // packages.add(new GeolocationPackage());
           return packages;
         }
 

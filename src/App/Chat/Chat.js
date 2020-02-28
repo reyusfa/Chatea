@@ -41,6 +41,7 @@ const Chat = props => {
       [`users/${receiverId}/chats/${chatId}/lastMessage`]: message[0],
       [`chats/${chatId}/updatedAt`]: firebaseTimestamp,
       [`notifications/${receiverId}/${newMessageKey}/_id`]: newMessageKey,
+      [`notifications/${receiverId}/${newMessageKey}/receiverDisplayName`]: chatData.receiverDisplayName,
       [`notifications/${receiverId}/${newMessageKey}/content`]: message[0],
       [`notifications/${receiverId}/${newMessageKey}/createdAt`]: firebaseTimestamp,
       [`notifications/${receiverId}/${newMessageKey}/delivered`]: false

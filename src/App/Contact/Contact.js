@@ -52,11 +52,19 @@ const Contact = props => {
         // console.log(result);
         if (result.value.code === 'CHAT_ADDED') {
           // navigation.navigate('Chat', { item: result.value.data });
-          navigation.navigate('AppChat', { item: result.value.data });
+          // navigation.navigate('AppChat', { item: result.value.data });
+          navigation.navigate('AppChat', {
+            screen: 'Chat',
+            params: { item: result.value.data }
+          });
         } else if (result.value.code === 'CHAT_EXISTS') {
           // console.log(result.value);
           // navigation.navigate('Chat', { item: result.value.data });
-          navigation.navigate('AppChat', { item: result.value.data });
+          // navigation.navigate('AppChat', { item: result.value.data });
+          navigation.navigate('AppChat', {
+            screen: 'Chat',
+            params: { item: result.value.data }
+          });
         }
       });
     } catch (error) {

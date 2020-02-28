@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import PushNotification from 'react-native-push-notification';
 import { firebaseDatabase } from '../../Public/config/firebase';
 
@@ -25,6 +25,7 @@ const LocalNotification = ({ bigText, subText, title, message }) => {
 };
 
 const NotificationsListener = ({ userId }) => {
+  // const [notification, setNotification] = useState({});
   const notifRef = firebaseDatabase
     .ref()
     .child('notifications')
@@ -35,12 +36,19 @@ const NotificationsListener = ({ userId }) => {
       .orderByChild('delivered')
       .equalTo(false)
       .on('child_added', snap => {
-        // console.log(snap.val());
-        LocalNotification({ message: snap.val().content.text });
+        LocalNotification({
+          bigText: snap.val().receiverDisplayName,
+          subText: snap.val().receiverDisplayName,
+          title: snap.val().receiverDisplayName,
+          message: snap.val().content.text
+        });
         notifRef
           .child(snap.val()._id)
           .child('delivered')
           .set(true);
+        // console.log(snap.val());
+
+        // setNotification(snap.val().content);
       });
   }, [notifRef]);
 
